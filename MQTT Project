@@ -1,1 +1,42 @@
+#include <ArduinoMqttClient.h>
+#include <Wifi.h>
+#include <PubSubClient.h>
 
+const char *ssid = ;//enter ssid
+const char *password = ;//phone hotspot password
+const char *mqtt_brokerIP = ;//ip adress of the broker
+const char *mqtt_cameraIP = ;// have to add the camera ip
+
+WifiClient wifiClient;
+PubSubClient client(wifiClient);
+
+
+const char broker[] ="test.mosquitto.org";
+int port = 1833;
+/*const char topic[] = "";*/
+
+#include <>.h>  /* install specific library depending on cammera */
+cameralibrary cl;//replace with real library
+
+
+// example of camera inisiliztion code
+// depending on camer code will change
+Camera camera;
+void setup()
+{
+    Start.begin(111111);
+    Wifi.begin(ssid, password);
+    
+
+    client.setServer(mqtt_server, 1883);
+    camera.begin();
+}
+
+void captureAndSendPicture() {
+  // Replace this with your actual camera capture code
+  CameraFrame frame = camera.capture();
+  byte *imageData = convertFrameToByteArray(frame);//create a funcion
+  client.publish(mqtt_topic, imageData, frame.size()); // send data to panel
+
+  delete[] imageData;// clean the storage after sending the picture
+}
